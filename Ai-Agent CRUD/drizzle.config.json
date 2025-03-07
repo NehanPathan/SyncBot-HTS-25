@@ -1,0 +1,9 @@
+{
+    "out": "./drizzle",
+    "schema": "./db/schema.js",
+    "dialect": "postgresql",
+    "dbCredentials": {
+      "url": "postgresql://admin:admin@localhost:5431/postgres"
+    }
+  }
+  

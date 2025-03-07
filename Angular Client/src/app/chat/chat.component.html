@@ -1,0 +1,61 @@
+<div class="chat-bg">
+  <div class="msger">
+    <header class="msger-header">
+      <div class="msger-header-title">
+        <i class="fas fa-comment-alt"></i> SyncBot
+        <h6>(Simplifying Database Operations, One Query at a Time!)</h6>
+      </div>
+      <div class="msger-header-options">
+        <span><h1>🤖</h1></span>
+      </div>
+    </header>
+
+    <main class="msger-chat"  #chatContainer>
+      <div *ngFor="let message of messages()" [ngClass]="{ 'right-msg': message.role === 'user', 'left-msg': message.role === 'assistant' }" class="msg">
+        <div class="msg-img">
+          <img [src]="message.role === 'user' ? 'assets/user.png' : 'assets/bot.png'" width="38" height="38" alt="User or Bot" />
+        </div>
+        <div class="msg-bubble">
+          <div class="msg-info">
+            <div class="msg-info-name">{{ message.role === 'user' ? 'You' : 'BOT' }}</div>
+          </div>
+          <div class="msg-text">{{ message.text }}</div>
+        </div>
+      </div>
+
+      <!-- Loading animation for bot response -->
+      <div *ngIf="isBotProcessing" class="msg left-msg">
+        <div class="msg-img">
+          <img src="assets/bot.png" width="38" height="38" alt="Bot" />
+        </div>
+        <div class="msg-bubble">
+          <div class="msg-info">
+            <div class="msg-info-name">BOT</div>
+          </div>
+          <div class="msg-text">
+            <div class="loading-dots">
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <form class="msger-inputarea" (submit)="sendMessage()">
+      <input autocomplete="off" type="text" class="msger-input" [(ngModel)]="userInput" (input)="onUserTyping()" placeholder="Chat with SyncBot..." name="message" />
+
+      <ul *ngIf="suggestions.length > 0" class="suggestions-list">
+        <li *ngFor="let suggestion of suggestions; let i = index"
+            [ngClass]="{ 'selected': i === selectedSuggestionIndex }"
+            (click)="selectSuggestion(suggestion)">
+          {{ suggestion }}
+        </li>
+      </ul>
+
+      <button type="submit" class="msger-send-btn">Send</button>
+    </form>
+
+  </div>
+</div>
